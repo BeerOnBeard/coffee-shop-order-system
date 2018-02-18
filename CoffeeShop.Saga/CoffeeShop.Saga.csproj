@@ -5,7 +5,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Automatonymous" Version="3.6.2" />
     <PackageReference Include="MassTransit" Version="4.0.1" />
+    <PackageReference Include="MassTransit.Automatonymous" Version="4.0.1" />
+    <PackageReference Include="MassTransit.Quartz" Version="4.0.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="4.0.1" />
   </ItemGroup>
 

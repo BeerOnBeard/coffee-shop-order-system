@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.Loader;
 using System.Threading;
+using Automatonymous;
 using MassTransit;
+using MassTransit.Saga;
 
 namespace CoffeeShop.Saga
 {
@@ -19,17 +21,20 @@ namespace CoffeeShop.Saga
 
         AssemblyLoadContext.Default.Unloading += DefaultUnloading;
 
+        var orderStateMachine = new OrderStateMachine();
+        var repository = new InMemorySagaRepository<Order>();
+
         BusControl = Bus.Factory.CreateUsingRabbitMq(config => {
-          var host = config.Host(new Uri("rabbitmq://localhost"), rabbit => {
+          var host = config.Host(new Uri("rabbitmq://localhost/"), rabbit => {
             rabbit.Username("phil");
             rabbit.Password("likesBagels");
           });
 
-          config.ReceiveEndpoint(host, "order_created_queue", e => e.Consumer<OrderCreatedConsumer>());
+          config.UseInMemoryScheduler();
+          config.ReceiveEndpoint(host, "order_saga", e => e.StateMachineSaga(orderStateMachine, repository));
         });
 
         BusControl.Start();
-
         Shutdown.WaitOne();
       }
       catch (Exception e)
@@ -39,7 +44,7 @@ namespace CoffeeShop.Saga
       finally
       {
         Console.Write("Cleaning up before shutdown...");
-
+        BusControl.Stop();
       }
 
       Console.Write("Goodbye!");

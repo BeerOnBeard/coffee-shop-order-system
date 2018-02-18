@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "buildCoffeeShopApi",
             "command": "dotnet",
             "type": "process",
             "args": [
@@ -10,6 +10,20 @@
                 "${workspaceFolder}/CoffeeShop.Api/CoffeeShop.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "buildCoffeeShopSaga",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/CoffeeShop.Saga/CoffeeShop.Saga.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

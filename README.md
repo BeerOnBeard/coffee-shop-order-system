@@ -13,7 +13,3 @@ The CoffeeShop is the front-of-house POS system where orders for coffee and/or b
 **Saga** projects are state machines that listen for events and issue commands. For example, when an OrderCreated event occurs, the `coffeeshop.saga` project would initialize a new instance of a state machine for that specific order. The state machine would track events in the system that are related to the order and issue commands when necessary.
 
 **EventContracts** projects are used for inter-domain event contracts. These interfaces should not be consumed by projects outside of that specific domain.
-
-**PublicEventContracts** project are used for extra-domain event contracts. These events are meant to be consumed by projects outside of that specific domain.
-
-It is important to segregate inter- and extra-domain event contracts to limit the coupling between projects.

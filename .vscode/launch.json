@@ -4,12 +4,22 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
     {
-      "name": ".NET Core Launch (web)",
+      "name": "CoffeeShop Saga",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "buildCoffeeShopSaga",
+      "program": "${workspaceRoot}/CoffeeShop.Saga/bin/Debug/netcoreapp2.0/CoffeeShop.Saga.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/CoffeeShop.Saga",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "CoffeeShop API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "buildCoffeeShopApi",
       "program": "${workspaceFolder}/CoffeeShop.Api/bin/Debug/netcoreapp2.0/CoffeeShop.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/CoffeeShop.Api",

@@ -16,12 +16,14 @@ namespace CoffeeShop.Api.Eventing
 
     public void PublishCreated(Order order)
     {
-      _endpoint.Publish<IOrderCreatedEvent>(new OrderCreated { Id = order.Id });
+      _endpoint.Publish<IOrderCreatedEvent>(new OrderCreated { Id = order.Id, CustomerName = order.CustomerName });
     }
 
     private class OrderCreated : IOrderCreatedEvent
     {
       public Guid Id { get; set; }
+
+      public string CustomerName { get; set; }
     }
   }
 }
