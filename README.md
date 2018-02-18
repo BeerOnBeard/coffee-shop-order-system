@@ -2,6 +2,8 @@
 
 This project is meant for learning event-driven architecture using MassTransit.
 
+The CoffeeShop is the front-of-house POS system where orders for coffee and/or bakery items are submitted. The Barista will fulfill orders for coffees. The Bakery will fulfill orders for bakery items. It's up to the CoffeeShop domain to coordinate the Barista and Bakery domains to successfully fulfill an order.
+
 ## Basics
 
 **Web** projects are meant for dumb interfaces that communicate to smart **APIs**.
@@ -15,7 +17,3 @@ This project is meant for learning event-driven architecture using MassTransit.
 **PublicEventContracts** project are used for extra-domain event contracts. These events are meant to be consumed by projects outside of that specific domain.
 
 It is important to segregate inter- and extra-domain event contracts to limit the coupling between projects.
-
-## Domains
-
-There are three domains: CoffeeShop, Barista, Bakery. The CoffeeShop is the front-of-house POS system where orders for coffee and/or bakery items are submitted. The Barista will fulfill orders for coffees. The Bakery will fulfill orders for bakery items. It's up to the CoffeeShop domain to coordinate the Barista and Bakery domains to successfully fulfill an order.
