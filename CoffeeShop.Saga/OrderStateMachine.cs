@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Automatonymous;
 using CoffeeShop.EventContracts;
 
@@ -19,7 +20,7 @@ namespace CoffeeShop.Saga
       );
 
       Schedule(() => OrderExpired, order => order.ExpirationId, schedule => {
-        schedule.Delay = TimeSpan.FromSeconds(1);
+        schedule.Delay = TimeSpan.FromMinutes(1);
         schedule.Received = e => e.CorrelateById(context => context.Message.OrderId);
       });
 
@@ -28,8 +29,23 @@ namespace CoffeeShop.Saga
           .Then(context => {
             context.Instance.OrderId = context.Data.Id;
             context.Instance.CustomerName = context.Data.CustomerName;
+            context.Instance.Coffees = context.Data.Coffees.Select(coffee => new Order.Coffee {
+              Id = Guid.NewGuid(),
+              Type = coffee.Type,
+              NumberOfSugars = coffee.NumberOfSugars,
+              NumberOfCreamers = coffee.NumberOfCreamers
+            });
           })
           .ThenAsync(context => Console.Out.WriteLineAsync($"Order {context.Instance.OrderId} started for {context.Instance.CustomerName}."))
+          .Publish(context => new CoffeesOrderedEvent {
+            OrderId = context.Instance.OrderId.Value,
+            Coffees = context.Instance.Coffees.Select(coffee => new CoffeesOrderedEvent.CoffeeOrder {
+              Id = coffee.Id,
+              Type = coffee.Type,
+              NumberOfSugars = coffee.NumberOfSugars,
+              NumberOfCreamers = coffee.NumberOfCreamers
+            })
+           })
           .Schedule(OrderExpired, context => new OrderExpiredEvent(context.Instance))
           .TransitionTo(Active)
       );
@@ -41,17 +57,6 @@ namespace CoffeeShop.Saga
       );
 
       SetCompletedWhenFinalized();
-    }
-
-    public class OrderExpiredEvent : IOrderExpiredEvent
-    {
-      private readonly Order _order;
-      public OrderExpiredEvent(Order order)
-      {
-        _order = order;
-      }
-      public Guid OrderId => _order.CorrelationId;
-      public string CustomerName => _order.CustomerName;
     }
   }
 }

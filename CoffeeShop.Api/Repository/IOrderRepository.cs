@@ -8,6 +8,5 @@ namespace CoffeeShop.Api.Repository
   {
     IEnumerable<Order> Get();
     void Create(Order order);
-    void Update(Order order);
   }
 }

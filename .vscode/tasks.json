@@ -1,29 +1,39 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "buildCoffeeShopApi",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/CoffeeShop.Api/CoffeeShop.Api.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "buildCoffeeShopSaga",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/CoffeeShop.Saga/CoffeeShop.Saga.csproj"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "buildBaristaCoordinator",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Barista.Coordinator/Barista.Coordinator.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "buildCoffeeShopApi",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/CoffeeShop.Api/CoffeeShop.Api.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "buildCoffeeShopSaga",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/CoffeeShop.Saga/CoffeeShop.Saga.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
 }

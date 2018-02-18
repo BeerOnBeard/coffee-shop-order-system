@@ -8,6 +8,5 @@ namespace CoffeeShop.Api.Service
   {
     IEnumerable<Order> Get();
     Order Create(CreateOrder order);
-    Order Complete(Guid orderId);
   }
 }

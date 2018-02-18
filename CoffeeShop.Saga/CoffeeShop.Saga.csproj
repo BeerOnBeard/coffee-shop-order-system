@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoffeeShop.EventContracts\CoffeeShop.EventContracts.csproj" />
+    <ProjectReference Include="..\Barista.EventContracts\Barista.EventContracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,6 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Barista Coordinator",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "buildBaristaCoordinator",
+      "program": "${workspaceRoot}/Barista.Coordinator/bin/Debug/netcoreapp2.0/Barista.Coordinator.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/Barista.Coordinator",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
       "name": "CoffeeShop Saga",
       "type": "coreclr",
       "request": "launch",

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CoffeeShop.Api.Models;
 using CoffeeShop.EventContracts;
 using MassTransit;
@@ -16,7 +18,15 @@ namespace CoffeeShop.Api.Eventing
 
     public void PublishCreated(Order order)
     {
-      _endpoint.Publish<IOrderCreatedEvent>(new OrderCreated { Id = order.Id, CustomerName = order.CustomerName });
+      var orderCreated = new OrderCreated { Id = order.Id, CustomerName = order.CustomerName };
+      orderCreated.Coffees = order.Coffees.Select(coffee => new OrderCoffee {
+        Id = coffee.Id,
+        Type = coffee.Type,
+        NumberOfSugars = coffee.NumberOfSugars,
+        NumberOfCreamers = coffee.NumberOfCreamers
+      });
+      
+      _endpoint.Publish<IOrderCreatedEvent>(orderCreated);
     }
 
     private class OrderCreated : IOrderCreatedEvent
@@ -24,6 +34,16 @@ namespace CoffeeShop.Api.Eventing
       public Guid Id { get; set; }
 
       public string CustomerName { get; set; }
+
+      public IEnumerable<ICoffee> Coffees { get; set; }
+    }
+
+    private class OrderCoffee : ICoffee
+    {
+      public Guid Id { get; set; }
+      public string Type { get; set; }
+      public int NumberOfSugars { get; set; }
+      public int NumberOfCreamers { get; set; }
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CoffeeShop.EventContracts
 {
@@ -6,5 +7,6 @@ namespace CoffeeShop.EventContracts
   {
     Guid Id { get; }
     string CustomerName { get; }
+    IEnumerable<ICoffee> Coffees { get; }
   }
 }

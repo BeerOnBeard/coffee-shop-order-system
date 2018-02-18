@@ -13,7 +13,7 @@ namespace CoffeeShop.Saga
     public static ManualResetEventSlim Complete = new ManualResetEventSlim();
     public static IBusControl BusControl;
     
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       try
       {

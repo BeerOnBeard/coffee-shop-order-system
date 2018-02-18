@@ -1,9 +1,17 @@
+using System.Collections.Generic;
+
 namespace CoffeeShop.Api.Models
 {
   public class CreateOrder
   {
     public string CustomerName { get; set; }
-    public int NumberOfCoffees { get; set; }
-    public int NumberOfBagels { get; set; }
+    public IEnumerable<Coffee> Coffees { get; set; }
+
+    public class Coffee
+    {
+      public string Type { get; set; }
+      public int NumberOfSugars { get; set; }
+      public int NumberOfCreamers { get; set; }
+    }
   }
 }

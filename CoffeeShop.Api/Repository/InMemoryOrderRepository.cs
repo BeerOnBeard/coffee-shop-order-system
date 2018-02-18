@@ -19,12 +19,6 @@ namespace CoffeeShop.Api.Repository
       _context.SaveChanges();
     }
 
-    public void Update(Order order)
-    {
-      _context.Orders.Update(order);
-      _context.SaveChanges();
-    }
-
     public IEnumerable<Order> Get()
     {
       return _context.Orders.AsEnumerable();
