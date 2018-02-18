@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  rabbit:
+    image: "rabbitmq:management-alpine"
+    environment:
+      - RABBITMQ_DEFAULT_USER=phil
+      - RABBITMQ_DEFAULT_PASS=likesBagels
+    ports:
+      - "5672:5672"
+      - "15672:15672"
