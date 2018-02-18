@@ -4,7 +4,7 @@ This project is meant for learning event-driven architecture using MassTransit.
 
 ## Basics
 
-**UI** projects are meant for dumb interfaces that communicate to smart **APIs**.
+**Web** projects are meant for dumb interfaces that communicate to smart **APIs**.
 
 **API** projects house available commands within a specific domain as well as the ability to query for state.
 
