@@ -1,6 +1,6 @@
 # Coffee Shop Eventing System
 
-This project is meant for learning event-driven architecture using MassTransit.
+This project is meant for learning event-driven architecture using [MassTransit](http://masstransit-project.com/MassTransit/).
 
 The CoffeeShop is the front-of-house POS system where orders for coffee and/or bakery items are submitted. The Barista will fulfill orders for coffees. The Bakery will fulfill orders for bakery items. It's up to the CoffeeShop domain to coordinate the Barista and Bakery domains to successfully fulfill an order.
 
