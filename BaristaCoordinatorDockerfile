@@ -1,0 +1,16 @@
+FROM microsoft/dotnet:sdk AS builder
+WORKDIR /source
+
+COPY Barista.Coordinator Barista.Coordinator
+COPY Barista.EventContracts Barista.EventContracts
+
+WORKDIR /source/Barista.Coordinator/
+
+RUN dotnet restore
+RUN dotnet publish --output /app/
+
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=builder /app .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Barista.Coordinator.dll"]

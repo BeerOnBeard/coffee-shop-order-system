@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Loader;
 using System.Threading;
 using Automatonymous;
 using MassTransit;
 using MassTransit.Saga;
+using Microsoft.Extensions.Configuration;
 
 namespace CoffeeShop.Saga
 {
@@ -21,13 +23,19 @@ namespace CoffeeShop.Saga
 
         AssemblyLoadContext.Default.Unloading += DefaultUnloading;
 
+        var configuration = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json")
+          .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("CS_Environment")}.json", optional: true)
+          .Build();
+
         var orderStateMachine = new OrderStateMachine();
         var repository = new InMemorySagaRepository<Order>();
 
         BusControl = Bus.Factory.CreateUsingRabbitMq(config => {
-          var host = config.Host(new Uri("rabbitmq://localhost/"), rabbit => {
-            rabbit.Username("phil");
-            rabbit.Password("likesBagels");
+          var host = config.Host(new Uri(configuration["Rabbit:Url"]), rabbit => {
+            rabbit.Username(configuration["Rabbit:User"]);
+            rabbit.Password(configuration["Rabbit:Pass"]);
           });
 
           config.UseInMemoryScheduler();

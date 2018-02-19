@@ -1,0 +1,15 @@
+FROM microsoft/aspnetcore-build AS builder
+WORKDIR /source
+
+COPY Barista.Api Barista.Api
+
+WORKDIR /source/Barista.Api/
+
+RUN dotnet restore
+RUN dotnet publish --output /app/
+
+FROM microsoft/aspnetcore
+WORKDIR /app
+COPY --from=builder /app .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Barista.Api.dll"]

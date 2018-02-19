@@ -30,7 +30,7 @@ namespace CoffeeShop.Saga
             context.Instance.OrderId = context.Data.Id;
             context.Instance.CustomerName = context.Data.CustomerName;
             context.Instance.Coffees = context.Data.Coffees.Select(coffee => new Order.Coffee {
-              Id = Guid.NewGuid(),
+              Id = coffee.Id,
               Type = coffee.Type,
               NumberOfSugars = coffee.NumberOfSugars,
               NumberOfCreamers = coffee.NumberOfCreamers

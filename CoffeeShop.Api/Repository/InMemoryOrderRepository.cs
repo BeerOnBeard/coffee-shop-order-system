@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoffeeShop.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Api.Repository
 {
@@ -21,7 +22,7 @@ namespace CoffeeShop.Api.Repository
 
     public IEnumerable<Order> Get()
     {
-      return _context.Orders.AsEnumerable();
+      return _context.Orders.Include(order => order.Coffees).AsEnumerable();
     }
   }
 }

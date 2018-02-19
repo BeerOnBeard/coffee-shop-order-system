@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Loader;
 using System.Threading;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Barista.Coordinator
 {
@@ -18,14 +21,25 @@ namespace Barista.Coordinator
         Console.Write("Starting...");
 
         AssemblyLoadContext.Default.Unloading += DefaultUnloading;
+        
+        var configuration = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json")
+          .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("CS_Environment")}.json", optional: true)
+          .Build();
+        
+        var services = new ServiceCollection()
+          .AddTransient<CoffeesOrderConsumer, CoffeesOrderConsumer>()
+          .AddSingleton<IConfiguration>(configuration)
+          .BuildServiceProvider();
 
         BusControl = Bus.Factory.CreateUsingRabbitMq(config => {
-          var host = config.Host(new Uri("rabbitmq://localhost/"), rabbit => {
-            rabbit.Username("phil");
-            rabbit.Password("likesBagels");
+          var host = config.Host(new Uri(configuration["Rabbit:Url"]), rabbit => {
+            rabbit.Username(configuration["Rabbit:User"]);
+            rabbit.Password(configuration["Rabbit:Pass"]);
           });
 
-          config.ReceiveEndpoint(host, "coffees_requested", e => e.Consumer<CoffeesOrderConsumer>());
+          config.ReceiveEndpoint(host, "coffees_requested", e => e.Consumer(() => services.GetService<CoffeesOrderConsumer>()));
         });
 
         BusControl.Start();

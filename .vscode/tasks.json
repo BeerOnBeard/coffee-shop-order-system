@@ -2,6 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "buildBaristaApi",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Barista.Api/Barista.Api.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "buildBaristaCoordinator",
       "command": "dotnet",
       "type": "process",
