@@ -6,10 +6,8 @@ namespace Barista.Api.Service
 {
   public interface ICoffeeService
   {
-    void AddCoffeeOrder(Coffee coffee);
-
     IEnumerable<Coffee> Get();
     
-    void Complete(Guid coffeeId);
+    void Complete(Coffee coffee);
   }
 }

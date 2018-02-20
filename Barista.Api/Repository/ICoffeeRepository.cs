@@ -6,8 +6,6 @@ namespace Barista.Api.Repository
 {
   public interface ICoffeeRepository
   {
-    void AddCoffeeOrder(Coffee coffee);
     IEnumerable<Coffee> Get();
-    void Update(Coffee coffee);
   }
 }

@@ -22,11 +22,5 @@ namespace Barista.Api.Controllers
     {
       return _service.Get();
     }
-
-    [HttpPost]
-    public void Post([FromBody]Coffee coffee)
-    {
-      _service.AddCoffeeOrder(coffee);
-    }
   }
 }

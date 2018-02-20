@@ -2,7 +2,9 @@
 using System.IO;
 using System.Runtime.Loader;
 using System.Threading;
+using Barista.Coordinator.Repository;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +20,7 @@ namespace Barista.Coordinator
     {
       try
       {
-        Console.Write("Starting...");
+        Console.WriteLine("Starting...");
 
         AssemblyLoadContext.Default.Unloading += DefaultUnloading;
         
@@ -29,8 +31,11 @@ namespace Barista.Coordinator
           .Build();
         
         var services = new ServiceCollection()
-          .AddTransient<CoffeesOrderConsumer, CoffeesOrderConsumer>()
           .AddSingleton<IConfiguration>(configuration)
+          .AddDbContext<CoffeeContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("CoffeeShopDb")))
+          .AddTransient<ICoffeeRepository, EntityFrameworkCoffeeRepository>()
+          .AddTransient<CoffeesOrderConsumer, CoffeesOrderConsumer>()
+          .AddTransient<CoffeeCompletedConsumer, CoffeeCompletedConsumer>()
           .BuildServiceProvider();
 
         BusControl = Bus.Factory.CreateUsingRabbitMq(config => {
@@ -40,9 +45,12 @@ namespace Barista.Coordinator
           });
 
           config.ReceiveEndpoint(host, "coffees_requested", e => e.Consumer(() => services.GetService<CoffeesOrderConsumer>()));
+          config.ReceiveEndpoint(host, "coffee_completed", e => e.Consumer(() => services.GetService<CoffeeCompletedConsumer>()));
         });
 
         BusControl.Start();
+
+        Console.WriteLine("Waiting for events...");
         Shutdown.WaitOne();
       }
       catch (Exception e)

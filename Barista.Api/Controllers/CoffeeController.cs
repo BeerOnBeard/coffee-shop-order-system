@@ -19,9 +19,9 @@ namespace Barista.Api.Controllers
     /// I'm just going to complete the order on POST.
     /// </summary>
     [HttpPost]
-    public void Complete(Guid id)
+    public void Complete(Guid id, [FromBody]Coffee coffee)
     {
-      _service.Complete(id);
+      _service.Complete(coffee);
     }
   }
 }
