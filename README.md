@@ -8,11 +8,11 @@ The CoffeeShop is the front-of-house POS system where orders for coffee and/or b
 
 **Web** projects are meant for dumb interfaces that communicate to smart **APIs**.
 
-**API** projects house available commands within a specific domain as well as the ability to query for state.
+**API** projects house available commands within a specific domain as well as the ability to query for state. These projects are only allowed to read from the database. Any write actions are propagated as events that the corresponding **Coordinator** project will persist to the database.
 
 **Saga** projects are state machines that listen for events and issue commands. For example, when an OrderCreated event occurs, the `CoffeeShop.Saga` project would initialize a new instance of a state machine for that specific order. The state machine would track events in the system that are related to the order and issue commands when necessary.
 
-**Coordinator** projects are used to accept events and translate them into a new domain. For example, the `Barista.Coordinator` listens for a coffees ordered event from the `CoffeeShop.Saga`. It then translates that into multiple calls to the `Barista.Api` because the order may contain multiple coffees and the Barista domain acts on one coffee at a time.
+**Coordinator** projects are used to accept events and translate them into a new domain. These projects handle writes to the database for that domain. For example, the `Barista.Coordinator` listens for a coffees ordered event from the `CoffeeShop.Saga`. It then translates that into multiple rows in the Barista database because the order may contain multiple coffees and the Barista domain acts on one coffee at a time.
 
 **EventContracts** projects are used for communication contracts. `CoffeeShop`, as the coordinating domain, knows about the contracts from other domains. However, the sub-domains do not need to be concerned with higher-level domains. This keeps the sub-domains of Barista and Bakery simpler while pushing the complexity of coordination up to the `CoffeeShop`.
 
