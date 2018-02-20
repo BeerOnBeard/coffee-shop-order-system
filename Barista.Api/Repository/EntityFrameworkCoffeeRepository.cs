@@ -4,11 +4,11 @@ using Barista.Api.Models;
 
 namespace Barista.Api.Repository
 {
-  public class InMemoryCoffeeRepository : ICoffeeRepository
+  public class EntityFrameworkCoffeeRepository : ICoffeeRepository
   {
     private readonly CoffeeContext _context;
 
-    public InMemoryCoffeeRepository(CoffeeContext context)
+    public EntityFrameworkCoffeeRepository(CoffeeContext context)
     {
       _context = context;
     }

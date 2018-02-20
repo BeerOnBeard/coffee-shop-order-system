@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Api.Repository
 {
-  public class InMemoryOrderRepository : IOrderRepository
+  public class EntityFrameworkOrderRepository : IOrderRepository
   {
     private readonly OrderContext _context;
 
-    public InMemoryOrderRepository(OrderContext context)
+    public EntityFrameworkOrderRepository(OrderContext context)
     {
       _context = context;
     }

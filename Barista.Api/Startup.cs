@@ -28,7 +28,7 @@ namespace Barista.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDbContext<CoffeeContext>(opt => opt.UseInMemoryDatabase("Coffees"));
+      services.AddDbContext<CoffeeContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CoffeeShopDb")));
 
       services.AddMvc();
 
@@ -42,7 +42,7 @@ namespace Barista.Api
 
       services.AddSingleton<IPublishEndpoint>(bus);
       services.AddScoped<ICoffeeEventPublisher, CoffeeEventPublisher>();
-      services.AddScoped<ICoffeeRepository, InMemoryCoffeeRepository>();
+      services.AddScoped<ICoffeeRepository, EntityFrameworkCoffeeRepository>();
       services.AddTransient<ICoffeeService, CoffeeService>();
     }
 

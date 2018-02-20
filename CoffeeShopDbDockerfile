@@ -1,0 +1,7 @@
+FROM microsoft/mssql-server-linux
+
+WORKDIR /initialization
+COPY ./CoffeeShopDb/Init.sh ./CoffeeShopDb/Init.sql ./
+RUN chmod +x Init.sh
+
+CMD /bin/bash ./Init.sh

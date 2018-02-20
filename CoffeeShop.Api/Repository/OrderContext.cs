@@ -8,6 +8,7 @@ namespace CoffeeShop.Api.Repository
     public OrderContext(DbContextOptions<OrderContext> options)
       : base(options)
     {
+      Database.EnsureCreated();
     }
     
     public DbSet<Order> Orders { get; set; }

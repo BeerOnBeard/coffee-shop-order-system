@@ -30,7 +30,9 @@ namespace CoffeeShop.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDbContext<OrderContext>(opt => opt.UseInMemoryDatabase("Orders"));
+      services.AddDbContext<OrderContext>(opt => {
+        opt.UseSqlServer(Configuration.GetConnectionString("CoffeeShopDb"));
+      });
 
       services.AddMvc();
 
@@ -44,7 +46,7 @@ namespace CoffeeShop.Api
 
       services.AddSingleton<IPublishEndpoint>(bus);
       services.AddScoped<IOrderEventPublisher, OrderEventPublisher>();
-      services.AddScoped<IOrderRepository, InMemoryOrderRepository>();
+      services.AddScoped<IOrderRepository, EntityFrameworkOrderRepository>();
       services.AddTransient<IOrderService, OrderService>();
     }
 

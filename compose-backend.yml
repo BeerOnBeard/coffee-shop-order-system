@@ -9,3 +9,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  coffee-shop-db:
+    build:
+      context: .
+      dockerfile: CoffeeShopDbDockerfile
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=coffeeShopOwner!@
+    ports:
+      - "1433:1433"

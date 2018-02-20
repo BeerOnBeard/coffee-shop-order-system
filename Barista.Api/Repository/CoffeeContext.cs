@@ -8,6 +8,7 @@ namespace Barista.Api.Repository
     public CoffeeContext(DbContextOptions<CoffeeContext> options)
       : base(options)
     {
+      Database.EnsureCreated();
     }
 
     public DbSet<Coffee> Coffees { get; set; }
