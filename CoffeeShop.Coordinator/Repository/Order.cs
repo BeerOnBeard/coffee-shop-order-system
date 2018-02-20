@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CoffeeShop.Api.Models
+namespace CoffeeShop.Coordinator.Repository
 {
   public class Order
   {

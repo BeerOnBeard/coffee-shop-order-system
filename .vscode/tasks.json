@@ -44,6 +44,16 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "buildCoffeeShopCoordinator",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/CoffeeShop.Coordinator/CoffeeShop.Coordinator.csproj"
+      ],
+      "problemMatcher": "$msCompile"
     }
   ]
 }

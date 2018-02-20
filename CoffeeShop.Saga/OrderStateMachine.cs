@@ -9,7 +9,7 @@ namespace CoffeeShop.Saga
   public class OrderStateMachine : MassTransitStateMachine<Order>
   {
     public State Active { get; private set; }
-    public Event<IOrderCreatedEvent> OrderCreated { get; private set; }
+    public Event<IOrderRequestedEvent> OrderRequested { get; private set; }
     public Event<IOrderCompletedEvent> OrderCompleted { get; private set; }
     public Event<ICoffeeCompletedEvent> CoffeeCompleted { get; private set; }
 
@@ -19,7 +19,7 @@ namespace CoffeeShop.Saga
     {
       InstanceState(order => order.CurrentState);
 
-      Event(() => OrderCreated,
+      Event(() => OrderRequested,
          config => config.CorrelateBy(order => order.OrderId, context => context.Message.Id).SelectId(context => context.Message.Id)
       );
 
@@ -37,7 +37,7 @@ namespace CoffeeShop.Saga
       });
 
       Initially(
-        When(OrderCreated)
+        When(OrderRequested)
           .Then(context => {
             context.Instance.OrderId = context.Data.Id;
             context.Instance.CustomerName = context.Data.CustomerName;

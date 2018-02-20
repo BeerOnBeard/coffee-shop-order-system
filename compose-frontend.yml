@@ -7,6 +7,10 @@ services:
       dockerfile: CoffeeShopApiDockerfile
     ports:
       - "5000:80"
+  coffee-shop-coordinator:
+    build:
+      context: .
+      dockerfile: CoffeeShopCoordinatorDockerfile
   coffee-shop-saga:
     build:
       context: .

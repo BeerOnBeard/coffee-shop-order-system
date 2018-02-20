@@ -16,7 +16,7 @@ namespace CoffeeShop.Api.Eventing
       _endpoint = endpoint;
     }
 
-    public void PublishCreated(Order order)
+    public void PublishRequested(Order order)
     {
       var orderCreated = new OrderCreated { Id = order.Id, CustomerName = order.CustomerName };
       orderCreated.Coffees = order.Coffees.Select(coffee => new OrderCoffee {
@@ -26,10 +26,10 @@ namespace CoffeeShop.Api.Eventing
         NumberOfCreamers = coffee.NumberOfCreamers
       });
       
-      _endpoint.Publish<IOrderCreatedEvent>(orderCreated);
+      _endpoint.Publish<IOrderRequestedEvent>(orderCreated);
     }
 
-    private class OrderCreated : IOrderCreatedEvent
+    private class OrderCreated : IOrderRequestedEvent
     {
       public Guid Id { get; set; }
 

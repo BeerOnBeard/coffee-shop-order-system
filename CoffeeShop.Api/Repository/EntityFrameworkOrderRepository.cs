@@ -14,11 +14,6 @@ namespace CoffeeShop.Api.Repository
     {
       _context = context;
     }
-    public void Create(Order order)
-    {
-      _context.Orders.Add(order);
-      _context.SaveChanges();
-    }
 
     public IEnumerable<Order> Get()
     {

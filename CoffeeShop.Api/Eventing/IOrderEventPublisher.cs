@@ -4,6 +4,6 @@ namespace CoffeeShop.Api.Eventing
 {
   public interface IOrderEventPublisher
   {
-    void PublishCreated(Order order);
+    void PublishRequested(Order order);
   }
 }

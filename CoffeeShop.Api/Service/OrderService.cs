@@ -32,8 +32,7 @@ namespace CoffeeShop.Api.Service
         }).ToList()
       };
 
-      _repository.Create(newOrder);
-      _publisher.PublishCreated(newOrder);
+      _publisher.PublishRequested(newOrder);
       return newOrder;
     }
 

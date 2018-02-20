@@ -7,6 +7,5 @@ namespace CoffeeShop.Api.Repository
   public interface IOrderRepository
   {
     IEnumerable<Order> Get();
-    void Create(Order order);
   }
 }

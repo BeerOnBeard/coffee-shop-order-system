@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CoffeeShop.EventContracts
 {
-  public interface IOrderCreatedEvent
+  public interface IOrderRequestedEvent
   {
     Guid Id { get; }
     string CustomerName { get; }

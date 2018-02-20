@@ -1,0 +1,16 @@
+FROM microsoft/dotnet:sdk AS builder
+WORKDIR /source
+
+COPY CoffeeShop.Coordinator CoffeeShop.Coordinator
+COPY CoffeeShop.EventContracts CoffeeShop.EventContracts
+
+WORKDIR /source/CoffeeShop.Coordinator/
+
+RUN dotnet restore
+RUN dotnet publish --output /app/
+
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=builder /app .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "CoffeeShop.Coordinator.dll"]
