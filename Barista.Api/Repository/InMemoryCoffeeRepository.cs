@@ -22,5 +22,11 @@ namespace Barista.Api.Repository
     {
       return _context.Coffees.AsEnumerable();
     }
+
+    public void Update(Coffee coffee)
+    {
+      _context.Coffees.Update(coffee);
+      _context.SaveChanges();
+    }
   }
 }

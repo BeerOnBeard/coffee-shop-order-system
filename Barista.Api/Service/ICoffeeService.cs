@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Barista.Api.Models;
 
@@ -8,5 +9,7 @@ namespace Barista.Api.Service
     void AddCoffeeOrder(Coffee coffee);
 
     IEnumerable<Coffee> Get();
+    
+    void Complete(Guid coffeeId);
   }
 }

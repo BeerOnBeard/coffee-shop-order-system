@@ -31,6 +31,7 @@ namespace Barista.Coordinator
           {
             var body = new {
               coffee.Id,
+              OriginalOrderId = context.Message.OrderId,
               coffee.Type,
               coffee.NumberOfSugars,
               coffee.NumberOfCreamers

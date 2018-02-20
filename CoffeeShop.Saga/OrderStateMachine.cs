@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Automatonymous;
+using Barista.EventContracts;
 using CoffeeShop.EventContracts;
 
 namespace CoffeeShop.Saga
@@ -9,6 +10,9 @@ namespace CoffeeShop.Saga
   {
     public State Active { get; private set; }
     public Event<IOrderCreatedEvent> OrderCreated { get; private set; }
+    public Event<IOrderCompletedEvent> OrderCompleted { get; private set; }
+    public Event<ICoffeeCompletedEvent> CoffeeCompleted { get; private set; }
+
     public Schedule<Order, IOrderExpiredEvent> OrderExpired { get; private set; }
 
     public OrderStateMachine()
@@ -19,8 +23,16 @@ namespace CoffeeShop.Saga
          config => config.CorrelateBy(order => order.OrderId, context => context.Message.Id).SelectId(context => context.Message.Id)
       );
 
+      Event(() => CoffeeCompleted,
+        config => config.CorrelateBy(order => order.OrderId, context => context.Message.OrderId)
+      );
+
+      Event(() => OrderCompleted,
+        config => config.CorrelateBy(order => order.OrderId, context => context.Message.Id)
+      );
+
       Schedule(() => OrderExpired, order => order.ExpirationId, schedule => {
-        schedule.Delay = TimeSpan.FromMinutes(1);
+        schedule.Delay = TimeSpan.FromMinutes(10);
         schedule.Received = e => e.CorrelateById(context => context.Message.OrderId);
       });
 
@@ -34,7 +46,7 @@ namespace CoffeeShop.Saga
               Type = coffee.Type,
               NumberOfSugars = coffee.NumberOfSugars,
               NumberOfCreamers = coffee.NumberOfCreamers
-            });
+            }).ToList();
           })
           .ThenAsync(context => Console.Out.WriteLineAsync($"Order {context.Instance.OrderId} started for {context.Instance.CustomerName}."))
           .Publish(context => new CoffeesOrderedEvent {
@@ -51,6 +63,17 @@ namespace CoffeeShop.Saga
       );
 
       During(Active,
+        When(CoffeeCompleted)
+          .ThenAsync(context => Console.Out.WriteLineAsync($"Coffee {context.Data.Id} completed for order {context.Instance.OrderId}"))
+          .Then(context => context.Instance.Coffees.Single(c => c.Id == context.Data.Id).IsComplete = true)
+          .Schedule(OrderExpired, context => new OrderExpiredEvent(context.Instance))
+          .If(context => context.Instance.Coffees.All(c => c.IsComplete),
+              binder => binder.Publish(context => new OrderCompletedEvent { Id = context.Instance.CorrelationId })
+          ),
+        When(OrderCompleted)
+          .ThenAsync(context => Console.Out.WriteLineAsync($"Order {context.Instance.OrderId} completed!"))
+          .Unschedule(OrderExpired)
+          .Finalize(),
         When(OrderExpired.Received)
           .ThenAsync(context => Console.Out.WriteLineAsync($"Order {context.Instance.OrderId} timed out for {context.Instance.CustomerName}."))
           .Finalize()

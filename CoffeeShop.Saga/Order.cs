@@ -12,7 +12,7 @@ namespace CoffeeShop.Saga
     public State CurrentState { get; set; }
     public Guid? OrderId { get; set; }
     public string CustomerName { get; set; }
-    public IEnumerable<Coffee> Coffees { get; set; }
+    public IList<Coffee> Coffees { get; set; }
 
     public class Coffee
     {
@@ -20,6 +20,7 @@ namespace CoffeeShop.Saga
       public string Type { get; set; }
       public int NumberOfSugars { get; set; }
       public int NumberOfCreamers { get; set; }
+      public bool IsComplete { get; set; }
     }
   }
 }

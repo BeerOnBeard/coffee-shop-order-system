@@ -50,4 +50,10 @@ curl -i -H 'Accept: application/json' http://localhost:5000/Orders
 curl -i -H 'Accept: application/json' http://localhost:5001/Coffees
 ```
 
+Once the Barista has some coffees to make, POST to complete each coffee.
+
+```bash
+curl -H 'Content-Type: application/json' http://localhost:5001/Coffees/30b214b1-db6a-4936-8b2a-d3cb735a0c45
+```
+
 Using an application like [Postman](https://www.getpostman.com/) makes it a bit easier to set up the requests and see the results in a sane way.

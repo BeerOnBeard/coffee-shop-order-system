@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Barista.Api.Eventing;
 using Barista.Api.Repository;
 using Barista.Api.Service;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,16 @@ namespace Barista.Api
 
       services.AddMvc();
 
+      var bus = Bus.Factory.CreateUsingRabbitMq(config =>
+        config.Host(new Uri(Configuration["Rabbit:Url"]), rabbit =>
+        {
+          rabbit.Username(Configuration["Rabbit:User"]);
+          rabbit.Password(Configuration["Rabbit:Pass"]);
+        })
+      );
+
+      services.AddSingleton<IPublishEndpoint>(bus);
+      services.AddScoped<ICoffeeEventPublisher, CoffeeEventPublisher>();
       services.AddScoped<ICoffeeRepository, InMemoryCoffeeRepository>();
       services.AddTransient<ICoffeeService, CoffeeService>();
     }

@@ -2,6 +2,7 @@ FROM microsoft/aspnetcore-build AS builder
 WORKDIR /source
 
 COPY Barista.Api Barista.Api
+COPY Barista.EventContracts Barista.EventContracts
 
 WORKDIR /source/Barista.Api/
 
