@@ -15,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: CoffeeShopSagaDockerfile
+
   barista-coordinator:
     build:
       context: .
@@ -25,3 +26,14 @@ services:
       dockerfile: BaristaApiDockerfile
     ports:
       - "5001:80"
+
+  bakery-coordinator:
+    build:
+      context: .
+      dockerfile: BakeryCoordinatorDockerfile
+  bakery-api:
+    build:
+      context: .
+      dockerfile: BakeryApiDockerfile
+    ports:
+      - "5002:80"

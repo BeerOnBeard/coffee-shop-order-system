@@ -40,7 +40,7 @@ Until I get a set of web projects built, I'm using requests directly to the APIs
 curl -d '{ "CustomerName": "Phil", "Coffees": [ { "Type": "Black", "NumberOfSugars": 0, "NumberOfCreamers": 0 } ] }' -H 'Content-Type: application/json' http://localhost:5000/Orders
 ```
 
-You can then query the `CoffeeShop.Api` and the `Barista.Api` to see the request as it's broken down from a full order to the separate domain.
+You can then query the `CoffeeShop.Api`, `Barista.Api`, and the `Bakery.Api` to see the request as it's broken down from a full order to the separate domains.
 
 ```bash
 curl -i -H 'Accept: application/json' http://localhost:5000/Orders
@@ -50,10 +50,20 @@ curl -i -H 'Accept: application/json' http://localhost:5000/Orders
 curl -i -H 'Accept: application/json' http://localhost:5001/Coffees
 ```
 
+```bash
+curl -i -H 'Accept: application/json' http://localhost:5002/Bagels
+```
+
 Once the Barista has some coffees to make, POST to complete each coffee.
 
 ```bash
-curl -H 'Content-Type: application/json' http://localhost:5001/Coffees/30b214b1-db6a-4936-8b2a-d3cb735a0c45
+curl -d '{ "id": "57c60899-2f7e-4b72-b11f-bed0f5b19b95", "originalOrderId": "8ee26d33-9960-42b9-b896-981fe103c702", "type": "Black", "numberOfSugars": 0, "numberOfCreamers": 0, "isComplete": true }' -H 'Content-Type: application/json' http://localhost:5001/Coffees/57c60899-2f7e-4b72-b11f-bed0f5b19b95
+```
+
+Once the Bakery has some bagels to make, POST to complete each coffee.
+
+```bash
+curl -d '{ "id": "043c6bcc-9e92-4aba-8098-bf8f816ea7de", "orderId": "8ee26d33-9960-42b9-b896-981fe103c702", "type": "Boring", "hasCreamCheese": false, "hasLox": false, "isComplete": true }' -H 'Content-Type: application/json' http://localhost:5002/Bagels/043c6bcc-9e92-4aba-8098-bf8f816ea7de
 ```
 
 Using an application like [Postman](https://www.getpostman.com/) makes it a bit easier to set up the requests and see the results in a sane way.

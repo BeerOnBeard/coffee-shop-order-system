@@ -29,6 +29,12 @@ namespace CoffeeShop.Api.Service
           Type = coffee.Type,
           NumberOfSugars = coffee.NumberOfSugars,
           NumberOfCreamers = coffee.NumberOfCreamers
+        }).ToList(),
+        Bagels = order.Bagels.Select(bagel => new Order.Bagel {
+          Id = Guid.NewGuid(),
+          Type = bagel.Type,
+          HasCreamCheese = bagel.HasCreamCheese,
+          HasLox = bagel.HasLox
         }).ToList()
       };
 

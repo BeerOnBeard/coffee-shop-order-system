@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CoffeeShop.EventContracts\CoffeeShop.EventContracts.csproj" />
     <ProjectReference Include="..\Barista.EventContracts\Barista.EventContracts.csproj" />
+    <ProjectReference Include="..\Bakery.EventContracts\Bakery.EventContracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

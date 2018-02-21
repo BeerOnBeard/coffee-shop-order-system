@@ -8,5 +8,6 @@ namespace CoffeeShop.EventContracts
     Guid Id { get; }
     string CustomerName { get; }
     IEnumerable<ICoffee> Coffees { get; }
+    IEnumerable<IBagel> Bagels { get; }
   }
 }

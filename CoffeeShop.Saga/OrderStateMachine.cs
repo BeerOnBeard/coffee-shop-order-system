@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Automatonymous;
+using Bakery.EventContracts;
 using Barista.EventContracts;
 using CoffeeShop.EventContracts;
 
@@ -12,6 +13,7 @@ namespace CoffeeShop.Saga
     public Event<IOrderRequestedEvent> OrderRequested { get; private set; }
     public Event<IOrderCompletedEvent> OrderCompleted { get; private set; }
     public Event<ICoffeeCompletedEvent> CoffeeCompleted { get; private set; }
+    public Event<IBagelCompletedEvent> BagelCompleted { get; private set; }
 
     public Schedule<Order, IOrderExpiredEvent> OrderExpired { get; private set; }
 
@@ -24,6 +26,10 @@ namespace CoffeeShop.Saga
       );
 
       Event(() => CoffeeCompleted,
+        config => config.CorrelateBy(order => order.OrderId, context => context.Message.OrderId)
+      );
+
+      Event(() => BagelCompleted,
         config => config.CorrelateBy(order => order.OrderId, context => context.Message.OrderId)
       );
 
@@ -47,16 +53,31 @@ namespace CoffeeShop.Saga
               NumberOfSugars = coffee.NumberOfSugars,
               NumberOfCreamers = coffee.NumberOfCreamers
             }).ToList();
+            context.Instance.Bagels = context.Data.Bagels.Select(bagel => new Order.Bagel {
+              Id = bagel.Id,
+              Type = bagel.Type,
+              HasCreamCheese = bagel.HasCreamCheese,
+              HasLox = bagel.HasLox
+            }).ToList();
           })
           .ThenAsync(context => Console.Out.WriteLineAsync($"Order {context.Instance.OrderId} started for {context.Instance.CustomerName}."))
           .Publish(context => new CoffeesOrderedEvent {
             OrderId = context.Instance.OrderId.Value,
-            Coffees = context.Instance.Coffees.Select(coffee => new CoffeesOrderedEvent.CoffeeOrder {
+            Coffees = context.Instance.Coffees.Select(coffee => new CoffeesOrderedEvent.Coffee {
               Id = coffee.Id,
               Type = coffee.Type,
               NumberOfSugars = coffee.NumberOfSugars,
               NumberOfCreamers = coffee.NumberOfCreamers
             })
+           })
+           .Publish(context => new BagelsOrderedEvent {
+             OrderId = context.Instance.OrderId.Value,
+             Bagels = context.Instance.Bagels.Select(bagel => new BagelsOrderedEvent.Bagel {
+               Id = bagel.Id,
+               Type = bagel.Type,
+               HasCreamCheese = bagel.HasCreamCheese,
+               HasLox = bagel.HasLox
+             })
            })
           .Schedule(OrderExpired, context => new OrderExpiredEvent(context.Instance))
           .TransitionTo(Active)
@@ -67,7 +88,16 @@ namespace CoffeeShop.Saga
           .ThenAsync(context => Console.Out.WriteLineAsync($"Coffee {context.Data.Id} completed for order {context.Instance.OrderId}"))
           .Then(context => context.Instance.Coffees.Single(c => c.Id == context.Data.Id).IsComplete = true)
           .Schedule(OrderExpired, context => new OrderExpiredEvent(context.Instance))
-          .If(context => context.Instance.Coffees.All(c => c.IsComplete),
+          .If(context => context.Instance.Coffees.All(c => c.IsComplete)
+                      && context.Instance.Bagels.All(b => b.IsComplete),
+              binder => binder.Publish(context => new OrderCompletedEvent { Id = context.Instance.CorrelationId })
+          ),
+        When(BagelCompleted)
+          .ThenAsync(context => Console.Out.WriteLineAsync($"Bagel {context.Data.Id} completed for order {context.Instance.OrderId}"))
+          .Then(context => context.Instance.Bagels.Single(b => b.Id == context.Data.Id).IsComplete = true)
+          .Schedule(OrderExpired, context => new OrderExpiredEvent(context.Instance))
+          .If(context => context.Instance.Coffees.All(c => c.IsComplete)
+                      && context.Instance.Bagels.All(b => b.IsComplete),
               binder => binder.Publish(context => new OrderCompletedEvent { Id = context.Instance.CorrelationId })
           ),
         When(OrderCompleted)

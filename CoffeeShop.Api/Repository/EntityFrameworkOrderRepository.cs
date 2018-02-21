@@ -17,7 +17,10 @@ namespace CoffeeShop.Api.Repository
 
     public IEnumerable<Order> Get()
     {
-      return _context.Orders.Include(order => order.Coffees).AsEnumerable();
+      return _context.Orders
+        .Include(order => order.Coffees)
+        .Include(order => order.Bagels)
+        .AsEnumerable();
     }
   }
 }

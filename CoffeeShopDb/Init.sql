@@ -11,6 +11,12 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT [loginname] FROM master.dbo.syslogins WHERE [name] = 'Baker')
+BEGIN
+  CREATE LOGIN Baker WITH PASSWORD = 'IMakeYouBagels!@';
+END
+GO
+
 /* We'll need a database per context to keep our systems separated. */
 IF NOT EXISTS (SELECT [name] FROM master.dbo.sysdatabases WHERE [name] = 'CoffeeShop')
 BEGIN
@@ -21,6 +27,12 @@ GO
 IF NOT EXISTS (SELECT [name] FROM master.dbo.sysdatabases WHERE [name] = 'Barista')
 BEGIN
   CREATE DATABASE Barista
+END
+GO
+
+IF NOT EXISTS (SELECT [name] FROM master.dbo.sysdatabases WHERE [name] = 'Bakery')
+BEGIN
+  CREATE DATABASE Bakery
 END
 GO
 
@@ -43,5 +55,16 @@ IF DATABASE_PRINCIPAL_ID('Barista') IS NULL
 BEGIN
   CREATE USER Barista FOR LOGIN Barista;
   EXEC sp_addrolemember N'db_owner', N'Barista';
+END
+GO
+
+/* Set up the Bakery database */
+USE Bakery;
+GO
+
+IF DATABASE_PRINCIPAL_ID('Baker') IS NULL
+BEGIN
+  CREATE USER Baker FOR LOGIN Baker;
+  EXEC sp_addrolemember N'db_owner', N'Baker';
 END
 GO

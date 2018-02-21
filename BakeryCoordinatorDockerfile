@@ -1,12 +1,10 @@
 FROM microsoft/dotnet:sdk AS builder
 WORKDIR /source
 
-COPY CoffeeShop.Saga CoffeeShop.Saga
-COPY CoffeeShop.EventContracts CoffeeShop.EventContracts
-COPY Barista.EventContracts Barista.EventContracts
+COPY Bakery.Coordinator Bakery.Coordinator
 COPY Bakery.EventContracts Bakery.EventContracts
 
-WORKDIR /source/CoffeeShop.Saga/
+WORKDIR /source/Bakery.Coordinator/
 
 RUN dotnet restore
 RUN dotnet publish --output /app/
@@ -15,4 +13,4 @@ FROM microsoft/dotnet:runtime
 WORKDIR /app
 COPY --from=builder /app .
 EXPOSE 80
-ENTRYPOINT ["dotnet", "CoffeeShop.Saga.dll"]
+ENTRYPOINT ["dotnet", "Bakery.Coordinator.dll"]

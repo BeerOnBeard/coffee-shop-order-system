@@ -27,6 +27,12 @@ namespace CoffeeShop.Coordinator
           Type = coffee.Type,
           NumberOfSugars = coffee.NumberOfSugars,
           NumberOfCreamers = coffee.NumberOfCreamers
+        }).ToList(),
+        Bagels = context.Message.Bagels.Select(bagel => new Order.Bagel {
+          Id = bagel.Id, 
+          Type = bagel.Type,
+          HasCreamCheese = bagel.HasCreamCheese,
+          HasLox = bagel.HasLox
         }).ToList()
       };
 
