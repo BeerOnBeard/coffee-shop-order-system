@@ -30,7 +30,7 @@ In another terminal window (if you're not using the `-d` switch):
 docker-compose -f compose-frontend.yml up
 ```
 
-The CoffeeShop API is available at `http://localhost:5000` and the Barista API is available at `http://localhost:5001`.
+The CoffeeShop API is available at `http://localhost:5000`, the Barista API is available at `http://localhost:5001`, and the Bakery API is available at `http://localhost:5002`.
 
 ## How To Order
 
