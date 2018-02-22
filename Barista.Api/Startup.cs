@@ -29,6 +29,11 @@ namespace Barista.Api
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<CoffeeContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CoffeeShopDb")));
+      
+      services.AddCors(opt => {
+        opt.AddPolicy("CorsPolicy", builder =>
+          builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+      });
 
       services.AddMvc();
 
@@ -54,6 +59,7 @@ namespace Barista.Api
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseCors("CorsPolicy");
       app.UseMvc();
     }
   }

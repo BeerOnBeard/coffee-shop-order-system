@@ -26,7 +26,7 @@ namespace Barista.Api.Service
 
     public IEnumerable<Coffee> Get()
     {
-      return _repository.Get();
+      return _repository.Get().Where(c => !c.IsComplete);;
     }
   }
 }

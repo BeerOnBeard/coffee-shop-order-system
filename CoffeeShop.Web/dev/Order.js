@@ -1,3 +1,5 @@
+let ko = require('knockout');
+
 function Order(model) {
   let self = this;
 

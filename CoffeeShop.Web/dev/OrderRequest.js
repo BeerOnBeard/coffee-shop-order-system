@@ -76,6 +76,11 @@ function OrderRequest() {
       contentType: 'application/json'
     })
     .done(function() {
+      self.customerName('');
+      resetCoffeeForm();
+      resetBagelForm();
+      self.coffees([]);
+      self.bagels([]);
       window.location = '#'
     });
   };
