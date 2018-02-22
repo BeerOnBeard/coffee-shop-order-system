@@ -3,33 +3,33 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Barista</title>
+    <title>Bakery</title>
     <!--
-      Primary: #82572b
-      Primary Header (lighter brown): #996633
+      Primary: #F4F4F4
+      Primary Header ()
     -->
     <style>
       html,body { height: 100%; padding: 0; margin: 0; }
       body {
         display: flex;
         flex-flow: column;
-        background-color: #82572b;
+        background-color: #ebebeb;
       }
       .header {
         box-shadow: 0 2px 5px rgba(0,0,0,0.26);
         text-align: center;
         padding: 0.5rem;
-        color: #FFF;
+        color: #82572b;
         font-weight: bold;
         font-size: 2rem;
-        background-color: #996633;
+        background-color: #F4F4F4;
       }
-      .coffees {
+      .bagels {
         flex: 1;
         display: flex;
         flex-wrap: wrap;
       }
-      .coffee {
+      .bagel {
         margin: 1rem;
         padding: 0.5rem;
         background-color: #FFF;
@@ -38,26 +38,25 @@
         transition: box-shadow 0.3s;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16),
                     0 3px 6px rgba(0,0,0,0.23);
-        
       }
-      .coffee:hover {
+      .bagel:hover {
         box-shadow: 0 5px 6px rgba(0,0,0,0.16),
                     0 5px 6px rgba(0,0,0,0.23);
       }
-      .coffee__complete {
+      .bagel__complete {
         margin-top: 1rem;
       }
     </style>
     <script type="text/javascript" src="/build/index.js"></script>
   </head>
   <body>
-    <div class="header">Coffees</div>
-    <div class="coffees" data-bind="foreach: coffees">
-      <div class="coffee">
+    <div class="header">Bagels</div>
+    <div class="bagels" data-bind="foreach: bagels">
+      <div class="bagel">
         <div>Type: <span data-bind="text: type"></span></div>
-        <div>Sugars: <span data-bind="text: sugars"></span></div>
-        <div>Creamers: <span data-bind="text: creamers"></span></div>
-        <button class="coffee__complete" data-bind="click: $parent.complete">Complete!</button>
+        <div>Cream Cheese: <input type="checkbox" data-bind="checked: hasCreamCheese" /></div>
+        <div>Lox: <input type="checkbox" data-bind="checked: hasLox" /></div>
+        <button class="bagel__complete" data-bind="click: $parent.complete">Complete!</button>
       </div>
     </div>
   </body>

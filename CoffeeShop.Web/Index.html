@@ -12,7 +12,7 @@
       <a class="add-new" href="#add-new"><span>+</span></a>
       <div class="header">Orders</div>
       <div class="orders" data-bind="foreach: orders">
-        <a class="order" href="#select-item" data-bind="click: $parent.selectOrder">
+        <a class="order" href="#select-item" data-bind="click: $parent.selectOrder, css: { 'order--complete': isComplete }">
           <div class="order__customer" data-bind="text: customerName"></div>
           <div class="order__item">Coffees: <span data-bind="text: numberOfCoffees"></span></div>
           <div class="order__item">Bagels: <span data-bind="text: numberOfBagels"></span></div>
@@ -72,7 +72,7 @@
     <div id="select-item" class="modal" data-bind="with: selectedOrder">
       <div>
         <a href="#" title="Close" class="modal__close">Close</a>
-        <h1><span data-bind="text: customerName"></span>'s Order</h1>
+        <h1><span data-bind="text: customerName"></span>'s Order <span data-bind="if: isComplete">is Complete!</span></h1>
         <div>
           <h2>Coffees</h2>
           <!-- ko foreach: coffees -->

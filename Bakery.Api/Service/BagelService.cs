@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Bakery.Api.Eventing;
 using Bakery.Api.Models;
 using Bakery.Api.Repository;
@@ -18,7 +19,7 @@ namespace Bakery.Api.Service
 
     public IEnumerable<Bagel> Get()
     {
-      return _repository.Get();
+      return _repository.Get().Where(b => !b.IsComplete);
     }
 
     public void Complete(Bagel bagel)

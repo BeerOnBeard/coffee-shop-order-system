@@ -25,7 +25,7 @@ function OrderRequest() {
   self.coffeeSugars = ko.observable(0);
   self.coffeeCreamers = ko.observable(0);
   self.addCoffee = function() {
-    self.coffees.push(new Coffee(self.coffeeType(), self.coffeeSugars(), self.coffeeSugars()));
+    self.coffees.push(new Coffee(self.coffeeType(), self.coffeeSugars(), self.coffeeCreamers()));
     resetCoffeeForm();
   };
 
