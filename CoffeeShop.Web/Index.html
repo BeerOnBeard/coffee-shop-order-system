@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coffee Shop Point of Sale</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="build/index.js"></script>
+  </head>
+  <body>
+    <div class="boundary">
+      <a class="add-new" href="#add-new"><span>+</span></a>
+      <div class="header">Orders</div>
+      <div class="orders" data-bind="foreach: orders">
+        <a class="order" href="#select-item" data-bind="click: $parent.selectOrder">
+          <div class="order__customer" data-bind="text: customerName"></div>
+          <div class="order__item">Coffees: <span data-bind="text: numberOfCoffees"></span></div>
+          <div class="order__item">Bagels: <span data-bind="text: numberOfBagels"></span></div>
+        </a>
+      </div>
+    </div>
+    <div id="add-new" class="modal" data-bind="with: newOrder">
+      <div>
+        <a href="#" title="Close" class="modal__close">Close</a>
+        <h1>Fresh Order</h1>
+        <label for="modal__customer-name">Customer: </label>
+        <input id="modal__customer-name" type="text" data-bind="value: customerName" />
+
+        <div class="add-coffee">
+          <h2>Coffees</h2>
+          <div>
+            <label for="modal__coffeeType">Type: </label>
+            <input id="modal__coffeeType" type="text" data-bind="value: coffeeType" />
+          </div>
+          <div>
+            <label for="modal__coffeeSugars">Sugars: </label>
+            <input id="modal__coffeeSugars" type="number" data-bind="value: coffeeSugars" />
+          </div>
+          <div>
+            <label for="modal__coffeeCreamers">Creamers: </label>
+            <input id="modal__coffeeCreamers" type="number" data-bind="value: coffeeCreamers" />
+          </div>
+          <button data-bind="click: addCoffee">Add Coffee</button>
+        </div>
+
+        <div data-bind="foreach: coffees">
+          <div data-bind="text: type"></div>
+        </div>
+
+        <div class="add-bagel">
+          <h2>Bagels</h2>
+          <div>
+            <label for="modal__bagelType">Type: </label>
+            <input id="modal__bagelType" type="text" data-bind="value: bagelType" />
+          </div>
+          <div>
+            <label for="modal__bagelHasCreamCheese">Cream Cheese: </label>
+            <input id="modal__bagelHasCreamCheese" type="checkbox" data-bind="checked: bagelHasCreamCheese" />
+            <label for="modal__bagelHasLox">Lox: </label>
+            <input id="modal__bagelHasLox" type="checkbox" data-bind="checked: bagelHasLox" />
+          </div>
+          <button data-bind="click: addBagel">Add Bagel</button>
+        </div>
+
+        <div data-bind="foreach: bagels">
+          <div data-bind="text: type"></div>
+        </div>
+
+        <button data-bind="click: submit">Submit</button>
+      </div>
+    </div>
+    <div id="select-item" class="modal" data-bind="with: selectedOrder">
+      <div>
+        <a href="#" title="Close" class="modal__close">Close</a>
+        <h1><span data-bind="text: customerName"></span>'s Order</h1>
+        <div>
+          <h2>Coffees</h2>
+          <!-- ko foreach: coffees -->
+          <div class="select-item__coffee">
+            <div>Type: <span data-bind="text: type"></span></div>
+            <div>Sugars: <span data-bind="text: numberOfSugars"></span></div>
+            <div>Creamers: <span data-bind="text: numberOfCreamers"></span></div>
+          </div>
+          <!-- /ko -->
+        </div>
+        <div>
+          <h2>Bagels</h2>
+          <!-- ko foreach: bagels -->
+          <div class="select-item__bagel">
+            <div>Type: <span data-bind="text: type"></span></div>
+            <div>Cream Cheese: <input type="checkbox" data-bind="checked: hasCreamCheese" readonly /></div>
+            <div>Lox: <input type="checkbox" data-bind="checked: hasLox" readonly /></div>
+          </div>
+          <!-- /ko -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

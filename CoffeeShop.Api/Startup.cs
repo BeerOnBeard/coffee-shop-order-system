@@ -34,6 +34,11 @@ namespace CoffeeShop.Api
         opt.UseSqlServer(Configuration.GetConnectionString("CoffeeShopDb"));
       });
 
+      services.AddCors(opt => {
+        opt.AddPolicy("CorsPolicy", builder =>
+          builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+      });
+
       services.AddMvc();
 
       var bus = Bus.Factory.CreateUsingRabbitMq(config =>
@@ -58,6 +63,7 @@ namespace CoffeeShop.Api
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseCors("CorsPolicy");
       app.UseMvc();
     }
   }
