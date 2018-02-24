@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+  coffee-shop-web:
+    build:
+      context: .
+      dockerfile: CoffeeShopWebDockerfile
+    ports:
+      - "5010:80"
   coffee-shop-api:
     build:
       context: .
@@ -16,6 +22,12 @@ services:
       context: .
       dockerfile: CoffeeShopSagaDockerfile
 
+  barista-web:
+    build:
+      context: .
+      dockerfile: BaristaWebDockerfile
+    ports:
+      - "5011:80"
   barista-coordinator:
     build:
       context: .
@@ -27,6 +39,12 @@ services:
     ports:
       - "5001:80"
 
+  bakery-web:
+    build:
+      context: .
+      dockerfile: BakeryWebDockerfile
+    ports:
+      - "5012:80"
   bakery-coordinator:
     build:
       context: .

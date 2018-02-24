@@ -30,11 +30,25 @@ In another terminal window (if you're not using the `-d` switch):
 docker-compose -f compose-frontend.yml up
 ```
 
-The CoffeeShop API is available at `http://localhost:5000`, the Barista API is available at `http://localhost:5001`, and the Bakery API is available at `http://localhost:5002`.
+The websites are available at:
+
+* CoffeeShop `http://localhost:5010`
+* Barista `http://localhost:5011`
+* Bakery `http://localhost:5012`
+
+The APIs are available at:
+
+* CoffeeShop `http://localhost:5000`
+* Barista `http://localhost:5001`
+* Bakery `http://localhost:5002`
 
 ## How To Order
 
-Until I get a set of web projects built, I'm using requests directly to the APIs. To start, make a call to the `CoffeeShop.Api`:
+### Using the Websites
+
+Go to the CoffeeShop website and click the green button in the bottom-right with a plus-sign in it. Fill out the form and click `Submit`. In order to complete the order, navigate to the Barista and Bakery sites and complete the requests for coffees and bagels, respectively. Once all coffees and bagels have been fulfilled, the original order on the CoffeeShop website will begin to pulse purple.
+
+### Using CURL Directly
 
 ```bash
 curl -d '{ "CustomerName": "Phil", "Coffees": [ { "Type": "Black", "NumberOfSugars": 0, "NumberOfCreamers": 0 } ] }' -H 'Content-Type: application/json' http://localhost:5000/Orders
