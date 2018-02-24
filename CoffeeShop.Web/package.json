@@ -5,16 +5,15 @@
   "main": "n/a",
   "scripts": {
     "dev": "npm run build:js && http-server",
-    "build:js": "browserify ./dev/index.js > ./build/index.js"
+    "build:js": "browserify ./dev/index.js | n-pipe ./build/index.js"
   },
   "author": "Adam Fournier",
   "license": "ISC",
-  "dependencies": {
-    "jquery": "^3.3.1",
-    "knockout": "^3.5.0-beta"
-  },
   "devDependencies": {
     "browserify": "^16.1.0",
-    "http-server": "^0.11.1"
+    "http-server": "^0.11.1",
+    "jquery": "^3.3.1",
+    "knockout": "^3.4.2",
+    "npm-build-tools": "^2.2.5"
   }
 }
