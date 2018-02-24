@@ -1,6 +1,6 @@
 bin
 obj
 node_modules
-CoffeeShop.Web/build
-Barista.Web/build
-Bakery.Web/build
+CoffeeShop.Web/dist
+Barista.Web/dist
+Bakery.Web/dist

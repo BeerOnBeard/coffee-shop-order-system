@@ -4,8 +4,12 @@
   "description": "",
   "main": "n/a",
   "scripts": {
-    "dev": "npm run build:js && http-server",
-    "build:js": "browserify ./dev/index.js | n-pipe ./build/index.js"
+    "dev": "npm run clean && npm run build && http-server ./dist",
+    "build": "n-run 'npm run build:css' 'npm run build:html' 'npm run build:js'",
+    "build:css": "node-sass ./main.scss | n-pipe ./dist/main.css",
+    "build:html": "n-copy --source ./ --destination ./dist 'index.html'",
+    "build:js": "browserify ./js/index.js | n-pipe ./dist/index.js",
+    "clean": "n-clean dist"
   },
   "author": "Adam Fournier",
   "license": "ISC",
@@ -14,6 +18,7 @@
     "http-server": "^0.11.1",
     "jquery": "^3.3.1",
     "knockout": "^3.4.2",
+    "node-sass": "^4.7.2",
     "npm-build-tools": "^2.2.5"
   }
 }

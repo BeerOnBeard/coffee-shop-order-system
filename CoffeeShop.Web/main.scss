@@ -1,17 +1,20 @@
 
-/*
-  Primary (blue): #5a7a9b
-  Primary Header (lighter blue): #6e8cab
-  Action (green): #5a9b7a
-  Action Hover (lighter green): #5aa57a
-  Action Click (darker green): #31825a
-  Item Text (dark blue/gray): #1e2934
-  Notification (purple): #6a5a9b
-*/
+$primary-bg-color: #5a7a9b;
+$header-text-color: #ffffff;
+$header-bg-color: #6e8cab;
+$action-button-text-color: #ffffff;
+$action-button-bg-color: #5a9b7a;
+$action-button-hover-bg-color: #5aa57a;
+$action-button-active-bg-color: #31825a;
+$order-card-text-color: #1e2934;
+$order-card-bg-color: #ffffff;
+$order-card-notification-bg-color:#6a5a9b;
+$modal-bg-color: #ffffff;
+
 html,body { height: 100%; padding: 0; margin: 0; }
 .modal {
   position: fixed;
-  background-color: #FFF;
+  background-color: $modal-bg-color;
   top: 0;
   right: 0;
   bottom: 0;
@@ -20,17 +23,18 @@ html,body { height: 100%; padding: 0; margin: 0; }
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s;
-  color: #5A7A9B;
-}
-.modal:target {
-  opacity: 1;
-  pointer-events: auto;
+  color: $primary-bg-color;
+
+  &:target {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .add-new {
   text-decoration: none;
-  color: #FFF;
-  background-color: #5a9b7a;
+  color: $action-button-text-color;
+  background-color: $action-button-bg-color;
   font-size: 2rem;
   font-weight: bold;
   line-height: 1;
@@ -47,26 +51,27 @@ html,body { height: 100%; padding: 0; margin: 0; }
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-
   transition: box-shadow 0.3s ease;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px,
               rgba(0, 0, 0, 0.14) 0px 6px 10px 0px,
               rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
-}
-.add-new:hover {
-  background-color: #5aa57a;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
-              rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
-              rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
-}
-.add-new:active {
-  background-color: #31825a;
+
+  &:hover {
+    background-color: $action-button-hover-bg-color;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+                rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
+                rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+  }
+
+  &:active {
+    background-color: $action-button-active-bg-color;
+  }
 }
 
 .boundary {
   width: 100%;
   min-height: 100%;
-  background-color: #5A7A9B;
+  background-color: $primary-bg-color;
   display: flex;
   flex-flow: column;
 }
@@ -76,10 +81,10 @@ html,body { height: 100%; padding: 0; margin: 0; }
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  color: #FFF;
+  color: $header-text-color;
   font-weight: bold;
   font-size: 2rem;
-  background-color: #6e8cab;
+  background-color: $header-bg-color;
   box-shadow: 0 2px 5px rgba(0,0,0,0.26);
 }
 
@@ -96,25 +101,27 @@ html,body { height: 100%; padding: 0; margin: 0; }
   transition: box-shadow 0.3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16),
               0 3px 6px rgba(0,0,0,0.23);
-  background-color: #FFF;
-  color: #1e2934;
+  background-color: $order-card-bg-color;
+  color: $order-card-text-color;
   margin: 1rem;
-  padding: 0.5rem
+  padding: 0.5rem;
+
+  &:hover {
+    box-shadow: 0 5px 6px rgba(0,0,0,0.16),
+                0 5px 6px rgba(0,0,0,0.23);
+  }
+
+  &--complete {
+    animation: order-complete 5s infinite;
+  }
 }
-.order:hover {
-  box-shadow: 0 5px 6px rgba(0,0,0,0.16),
-              0 5px 6px rgba(0,0,0,0.23);
-}
-.order--complete {
-  animation: pulse 5s infinite;
-  animation-direction: alternate;
-}
-@keyframes pulse {
+
+@keyframes order-complete {
   0%,100% {
-    background-color: #FFF;
+    background-color: $order-card-bg-color;
   }
   50% {
-    background-color: #6a5a9b;
+    background-color: $order-card-notification-bg-color;
   }
 }
 .order__customer {
@@ -131,15 +138,16 @@ html,body { height: 100%; padding: 0; margin: 0; }
 }
 .add-coffee {
   margin-top: 1rem;
+  & > button {
+    margin-top: 1rem;
+  }
 }
-.add-coffee > button {
-  margin-top: 1rem;
-}
+
 .add-bagel {
   margin-top: 1rem;
-}
-.add-bagel > button {
-  margin-top: 1rem;
+  & > button {
+    margin-top: 1rem;
+  }
 }
 
 #select-item {
