@@ -22,5 +22,18 @@ namespace CoffeeShop.Api.Controllers
     {
       return _service.Get().FirstOrDefault(order => order.Id == id);
     }
+
+    /// <summary>
+    /// Kind of a hack, but gets the point across. This could use media-types to
+    /// signify intent (example: application/vnd.cs.order-fulfilled+json) or the
+    /// system could infer events depending on change. For example, read current
+    /// state from data store, if isFulfilled changes from false to true then 
+    /// raise the event for order fulfilled notification. For now, hack hack hack...
+    /// </summary>
+    [HttpPost]
+    public void Fulfilled(Guid id)
+    {
+      _service.MarkFulfilled(id);
+    }
   }
 }

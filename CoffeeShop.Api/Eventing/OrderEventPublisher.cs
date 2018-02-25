@@ -18,15 +18,15 @@ namespace CoffeeShop.Api.Eventing
 
     public void PublishRequested(Order order)
     {
-      var orderCreated = new OrderCreated { Id = order.Id, CustomerName = order.CustomerName };
-      orderCreated.Coffees = order.Coffees.Select(coffee => new Coffee {
+      var orderCreated = new OrderRequestedEvent { Id = order.Id, CustomerName = order.CustomerName };
+      orderCreated.Coffees = order.Coffees.Select(coffee => new OrderRequestedEvent.Coffee {
         Id = coffee.Id,
         Type = coffee.Type,
         NumberOfSugars = coffee.NumberOfSugars,
         NumberOfCreamers = coffee.NumberOfCreamers
       });
       
-      orderCreated.Bagels = order.Bagels.Select(bagel => new Bagel {
+      orderCreated.Bagels = order.Bagels.Select(bagel => new OrderRequestedEvent.Bagel {
         Id = bagel.Id,
         Type = bagel.Type,
         HasCreamCheese = bagel.HasCreamCheese,
@@ -36,34 +36,9 @@ namespace CoffeeShop.Api.Eventing
       _endpoint.Publish<IOrderRequestedEvent>(orderCreated);
     }
 
-    private class OrderCreated : IOrderRequestedEvent
+    public void PublishFulfilled(Order order)
     {
-      public Guid Id { get; set; }
-
-      public string CustomerName { get; set; }
-
-      public IEnumerable<ICoffee> Coffees { get; set; }
-
-      public IEnumerable<IBagel> Bagels { get; set; }
-    }
-
-    private class Coffee : ICoffee
-    {
-      public Guid Id { get; set; }
-      public string Type { get; set; }
-      public int NumberOfSugars { get; set; }
-      public int NumberOfCreamers { get; set; }
-    }
-
-    private class Bagel : IBagel
-    {
-      public Guid Id { get; set; }
-
-      public string Type { get; set; }
-
-      public bool HasCreamCheese { get; set; }
-
-      public bool HasLox { get; set; }
+      _endpoint.Publish<IOrderFulfilledEvent>(new { Id = order.Id });
     }
   }
 }

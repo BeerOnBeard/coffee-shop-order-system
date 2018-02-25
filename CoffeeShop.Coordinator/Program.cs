@@ -36,6 +36,7 @@ namespace CoffeeShop.Coordinator
           .AddTransient<IOrderRepository, EntityFrameworkOrderRepository>()
           .AddTransient<OrderRequestedConsumer, OrderRequestedConsumer>()
           .AddTransient<OrderCompletedConsumer, OrderCompletedConsumer>()
+          .AddTransient<OrderFulfilledConsumer, OrderFulfilledConsumer>()
           .BuildServiceProvider();
         
         BusControl = Bus.Factory.CreateUsingRabbitMq(config => {
@@ -46,6 +47,7 @@ namespace CoffeeShop.Coordinator
 
           config.ReceiveEndpoint(host, "order_requested", e => e.Consumer(() => services.GetService<OrderRequestedConsumer>()));
           config.ReceiveEndpoint(host, "order_completed", e => e.Consumer(() => services.GetService<OrderCompletedConsumer>()));
+          config.ReceiveEndpoint(host, "order_fulfilled", e => e.Consumer(() => services.GetService<OrderFulfilledConsumer>()));
         });
 
         BusControl.Start();

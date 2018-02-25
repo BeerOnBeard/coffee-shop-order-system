@@ -8,5 +8,6 @@ namespace CoffeeShop.Api.Service
   {
     IEnumerable<Order> Get();
     Order Create(CreateOrder order);
+    void MarkFulfilled(Guid id);
   }
 }

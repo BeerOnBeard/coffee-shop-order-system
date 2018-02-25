@@ -44,7 +44,19 @@ namespace CoffeeShop.Api.Service
 
     public IEnumerable<Order> Get()
     {
-      return _repository.Get();
+      return _repository.Get().Where(o => !o.IsFulfilled);
+    }
+
+    public void MarkFulfilled(Guid id)
+    {
+      var order = _repository.Get().FirstOrDefault(o => o.Id == id);
+      if (order == null)
+      {
+        return;
+      }
+
+      order.IsFulfilled = true;
+      _publisher.PublishFulfilled(order);
     }
   }
 }

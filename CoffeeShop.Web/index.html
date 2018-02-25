@@ -73,6 +73,9 @@
       <div>
         <a href="#" title="Close" class="modal__close">Close</a>
         <h1><span data-bind="text: customerName"></span>'s Order <span data-bind="if: isComplete">is Complete!</span></h1>
+        <p data-bind="ifnot: isFulfilled">
+          When the order is given to the customer, click the 'Fulfilled!' button below.
+        </p>
         <div>
           <h2>Coffees</h2>
           <!-- ko foreach: coffees -->
@@ -93,6 +96,7 @@
           </div>
           <!-- /ko -->
         </div>
+        <button data-bind="click: $parent.markFulfilled">Fulfilled!</button>
       </div>
     </div>
   </body>

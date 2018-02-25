@@ -15,6 +15,19 @@ function CoffeeShopViewModel() {
     return true;
   };
 
+  self.markFulfilled = function(order) {
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:5000/Orders/' + order.id,
+      contentType: 'application/json'
+    })
+    .done(function() {
+      window.location = '#';
+      self.selectedOrder(undefined);
+      self.orders.remove(order)
+    });
+  };
+
   getOrders().done(function(orders) {
     self.orders(orders);
   });

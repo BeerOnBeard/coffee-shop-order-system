@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
+using CoffeeShop.EventContracts;
 
-namespace CoffeeShop.Api.Models
+namespace CoffeeShop.Api.Eventing
 {
-  public class Order
+  public class OrderRequestedEvent : IOrderRequestedEvent
   {
     public Guid Id { get; set; }
     public string CustomerName { get; set; }
-    public bool IsComplete { get; set; }
-    public bool IsFulfilled { get; set; }
-    public ICollection<Coffee> Coffees { get; set; }
-    public ICollection<Bagel> Bagels { get; set; }
+    public IEnumerable<ICoffee> Coffees { get; set; }
+    public IEnumerable<IBagel> Bagels { get; set; }
 
-    public class Coffee
+    public class Coffee : ICoffee
     {
       public Guid Id { get; set; }
       public string Type { get; set; }
@@ -20,7 +19,7 @@ namespace CoffeeShop.Api.Models
       public int NumberOfCreamers { get; set; }
     }
 
-    public class Bagel
+    public class Bagel : IBagel
     {
       public Guid Id { get; set; }
       public string Type { get; set; }

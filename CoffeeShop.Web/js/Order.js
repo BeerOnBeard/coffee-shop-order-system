@@ -8,6 +8,7 @@ function Order(model) {
   self.coffees = model.coffees;
   self.bagels = model.bagels;
   self.isComplete = model.isComplete;
+  self.isFulfilled = model.isFulfilled;
 
   self.numberOfCoffees = ko.pureComputed(function() {
     return self.coffees.length;

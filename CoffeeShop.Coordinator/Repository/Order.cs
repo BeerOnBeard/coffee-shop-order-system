@@ -8,6 +8,7 @@ namespace CoffeeShop.Coordinator.Repository
     public Guid Id { get; set; }
     public string CustomerName { get; set; }
     public bool IsComplete { get; set; }
+    public bool IsFulfilled { get; set; }
     public ICollection<Coffee> Coffees { get; set; }
     public ICollection<Bagel> Bagels { get; set; }
 
