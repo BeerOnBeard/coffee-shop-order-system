@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Bakery.Api.Models;
 using Bakery.Api.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,10 @@ namespace Bakery.Api.Controllers
     /// I'm just going to complete the order on POST.
     /// </summary>
     [HttpPost]
-    public void Complete(Guid id, [FromBody]Bagel bagel)
+    public async Task<IActionResult> Complete(Guid id, [FromBody]Bagel bagel)
     {
-      _service.Complete(bagel);
+      await _service.Complete(bagel);
+      return NoContent();
     }
   }
 }

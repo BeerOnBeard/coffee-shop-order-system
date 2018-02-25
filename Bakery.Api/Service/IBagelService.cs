@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Bakery.Api.Models;
 
 namespace Bakery.Api.Service
 {
   public interface IBagelService
   {
-    IEnumerable<Bagel> Get();
-    void Complete(Bagel bagel);
+    Task<IEnumerable<Bagel>> Get();
+    Task Complete(Bagel bagel);
   }
 }

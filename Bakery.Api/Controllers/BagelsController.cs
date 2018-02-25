@@ -19,9 +19,9 @@ namespace Bakery.Api.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<Bagel> Get()
+    public async Task<IEnumerable<Bagel>> Get()
     {
-      return _service.Get();
+      return await _service.Get();
     }
   }
 }

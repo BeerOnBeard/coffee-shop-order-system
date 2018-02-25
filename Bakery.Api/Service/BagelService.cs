@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bakery.Api.Eventing;
 using Bakery.Api.Models;
 using Bakery.Api.Repository;
@@ -17,15 +18,15 @@ namespace Bakery.Api.Service
       _repository = repository;
     }
 
-    public IEnumerable<Bagel> Get()
+    public async Task<IEnumerable<Bagel>> Get()
     {
-      return _repository.Get().Where(b => !b.IsComplete);
+      return await _repository.GetIncomplete();
     }
 
-    public void Complete(Bagel bagel)
+    public async Task Complete(Bagel bagel)
     {
       bagel.IsComplete = true;
-      _publisher.PublishCompleted(bagel);
+      await _publisher.PublishCompleted(bagel);
     }
   }
 }

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bakery.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Api.Repository
 {
@@ -12,9 +14,9 @@ namespace Bakery.Api.Repository
     {
       _context = context;
     }
-    public IEnumerable<Bagel> Get()
+    public async Task<IEnumerable<Bagel>> GetIncomplete()
     {
-      return _context.Bagels.AsEnumerable();
+      return await _context.Bagels.Where(b => !b.IsComplete).ToListAsync();
     }
   }
 }
