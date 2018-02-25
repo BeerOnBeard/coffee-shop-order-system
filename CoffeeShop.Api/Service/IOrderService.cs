@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoffeeShop.Api.Models;
 
 namespace CoffeeShop.Api.Service
 {
   public interface IOrderService
   {
-    IEnumerable<Order> Get();
-    Order Create(CreateOrder order);
-    void MarkFulfilled(Guid id);
+    Task<IEnumerable<Order>> Get();
+    Task<Order> Create(CreateOrder order);
+    Task MarkFulfilled(Guid id);
   }
 }

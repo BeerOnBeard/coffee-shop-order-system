@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeShop.Api.Eventing;
 using CoffeeShop.Api.Models;
 using CoffeeShop.Api.Repository;
@@ -18,7 +19,7 @@ namespace CoffeeShop.Api.Service
       _repository = repository;
     }
 
-    public Order Create(CreateOrder order)
+    public async Task<Order> Create(CreateOrder order)
     {
       var newOrder = new Order
       {
@@ -38,25 +39,26 @@ namespace CoffeeShop.Api.Service
         }).ToList()
       };
 
-      _publisher.PublishRequested(newOrder);
+      await _publisher.PublishRequested(newOrder);
       return newOrder;
     }
 
-    public IEnumerable<Order> Get()
+    public async Task<IEnumerable<Order>> Get()
     {
-      return _repository.Get().Where(o => !o.IsFulfilled);
+      return await _repository.GetUnfulfilled();
     }
 
-    public void MarkFulfilled(Guid id)
+    public async Task MarkFulfilled(Guid id)
     {
-      var order = _repository.Get().FirstOrDefault(o => o.Id == id);
+      var orders = await _repository.GetUnfulfilled();
+      var order = orders.FirstOrDefault(o => o.Id == id);
       if (order == null)
       {
         return;
       }
 
       order.IsFulfilled = true;
-      _publisher.PublishFulfilled(order);
+      await _publisher.PublishFulfilled(order);
     }
   }
 }

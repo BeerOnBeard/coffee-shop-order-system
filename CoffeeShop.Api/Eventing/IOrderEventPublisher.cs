@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using CoffeeShop.Api.Models;
 
 namespace CoffeeShop.Api.Eventing
 {
   public interface IOrderEventPublisher
   {
-    void PublishRequested(Order order);
-    void PublishFulfilled(Order order);
+    Task PublishRequested(Order order);
+    Task PublishFulfilled(Order order);
   }
 }

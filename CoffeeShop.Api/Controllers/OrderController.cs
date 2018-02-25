@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeShop.Api.Models;
 using CoffeeShop.Api.Repository;
 using CoffeeShop.Api.Service;
@@ -8,19 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoffeeShop.Api.Controllers
 {
   [Route("/Orders/{id}")]
-  public class OrderController
+  public class OrderController : Controller
   {
     private readonly IOrderService _service;
     
     public OrderController(IOrderService service)
     {
       _service = service;
-    }
-
-    [HttpGet]
-    public Order Get(Guid id)
-    {
-      return _service.Get().FirstOrDefault(order => order.Id == id);
     }
 
     /// <summary>
@@ -31,9 +26,10 @@ namespace CoffeeShop.Api.Controllers
     /// raise the event for order fulfilled notification. For now, hack hack hack...
     /// </summary>
     [HttpPost]
-    public void Fulfilled(Guid id)
+    public async Task<IActionResult> Fulfilled(Guid id)
     {
-      _service.MarkFulfilled(id);
+      await _service.MarkFulfilled(id);
+      return Ok();
     }
   }
 }

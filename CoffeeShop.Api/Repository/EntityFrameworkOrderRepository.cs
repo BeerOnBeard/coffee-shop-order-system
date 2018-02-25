@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeShop.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,12 +16,13 @@ namespace CoffeeShop.Api.Repository
       _context = context;
     }
 
-    public IEnumerable<Order> Get()
+    public async Task<IEnumerable<Order>> GetUnfulfilled()
     {
-      return _context.Orders
+      return await _context.Orders
         .Include(order => order.Coffees)
         .Include(order => order.Bagels)
-        .AsEnumerable();
+        .Where(order => !order.IsFulfilled)
+        .ToListAsync();
     }
   }
 }

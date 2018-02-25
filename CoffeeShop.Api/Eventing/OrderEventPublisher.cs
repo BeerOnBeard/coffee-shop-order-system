@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeShop.Api.Models;
 using CoffeeShop.EventContracts;
 using MassTransit;
@@ -16,7 +17,7 @@ namespace CoffeeShop.Api.Eventing
       _endpoint = endpoint;
     }
 
-    public void PublishRequested(Order order)
+    public async Task PublishRequested(Order order)
     {
       var orderCreated = new OrderRequestedEvent { Id = order.Id, CustomerName = order.CustomerName };
       orderCreated.Coffees = order.Coffees.Select(coffee => new OrderRequestedEvent.Coffee {
@@ -33,12 +34,12 @@ namespace CoffeeShop.Api.Eventing
         HasLox = bagel.HasLox
       });
       
-      _endpoint.Publish<IOrderRequestedEvent>(orderCreated);
+      await _endpoint.Publish<IOrderRequestedEvent>(orderCreated);
     }
 
-    public void PublishFulfilled(Order order)
+    public async Task PublishFulfilled(Order order)
     {
-      _endpoint.Publish<IOrderFulfilledEvent>(new { Id = order.Id });
+      await _endpoint.Publish<IOrderFulfilledEvent>(new { Id = order.Id });
     }
   }
 }
