@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Barista.Api.Models;
 using Barista.Api.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,10 @@ namespace Barista.Api.Controllers
     /// I'm just going to complete the order on POST.
     /// </summary>
     [HttpPost]
-    public void Complete(Guid id, [FromBody]Coffee coffee)
+    public async Task<IActionResult> Complete(Guid id, [FromBody]Coffee coffee)
     {
-      _service.Complete(coffee);
+      await _service.Complete(coffee);
+      return NoContent();
     }
   }
 }

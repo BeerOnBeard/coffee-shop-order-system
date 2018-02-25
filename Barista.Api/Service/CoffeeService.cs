@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Barista.Api.Eventing;
 using Barista.Api.Models;
 using Barista.Api.Repository;
@@ -18,15 +19,15 @@ namespace Barista.Api.Service
       _repository = repository;
     }
 
-    public void Complete(Coffee coffee)
+    public async Task Complete(Coffee coffee)
     {
       coffee.IsComplete = true;
-      _publisher.PublishCompleted(coffee);
+      await _publisher.PublishCompleted(coffee);
     }
 
-    public IEnumerable<Coffee> Get()
+    public async Task<IEnumerable<Coffee>> Get()
     {
-      return _repository.Get().Where(c => !c.IsComplete);;
+      return await _repository.GetIncomplete();
     }
   }
 }

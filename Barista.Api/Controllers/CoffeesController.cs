@@ -18,9 +18,9 @@ namespace Barista.Api.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<Coffee> Get()
+    public async Task<IEnumerable<Coffee>> Get()
     {
-      return _service.Get();
+      return await _service.Get();
     }
   }
 }

@@ -1,9 +1,10 @@
+using System.Threading.Tasks;
 using Barista.Api.Models;
 
 namespace Barista.Api.Eventing
 {
   public interface ICoffeeEventPublisher
   {
-    void PublishCompleted(Coffee coffee);
+    Task PublishCompleted(Coffee coffee);
   }
 }

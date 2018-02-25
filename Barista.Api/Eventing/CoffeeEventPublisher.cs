@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Barista.Api.Models;
 using Barista.EventContracts;
 using MassTransit;
@@ -13,10 +14,10 @@ namespace Barista.Api.Eventing
       _endpoint = endpoint;
     }
 
-    public void PublishCompleted(Coffee coffee)
+    public async Task PublishCompleted(Coffee coffee)
     {
       var coffeeCompleted = new CoffeeCompleted { Id = coffee.Id, OrderId = coffee.OriginalOrderId };
-      _endpoint.Publish<ICoffeeCompletedEvent>(coffeeCompleted);
+      await _endpoint.Publish<ICoffeeCompletedEvent>(coffeeCompleted);
     }
 
     private class CoffeeCompleted : ICoffeeCompletedEvent

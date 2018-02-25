@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Barista.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Barista.Api.Repository
 {
@@ -13,9 +15,9 @@ namespace Barista.Api.Repository
       _context = context;
     }
     
-    public IEnumerable<Coffee> Get()
+    public async Task<IEnumerable<Coffee>> GetIncomplete()
     {
-      return _context.Coffees.AsEnumerable();
+      return await _context.Coffees.Where(c => !c.IsComplete).ToListAsync();
     }
   }
 }

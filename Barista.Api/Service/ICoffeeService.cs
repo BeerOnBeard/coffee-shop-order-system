@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Barista.Api.Models;
 
 namespace Barista.Api.Service
 {
   public interface ICoffeeService
   {
-    IEnumerable<Coffee> Get();
+    Task<IEnumerable<Coffee>> Get();
     
-    void Complete(Coffee coffee);
+    Task Complete(Coffee coffee);
   }
 }
